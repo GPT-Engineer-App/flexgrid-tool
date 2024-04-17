@@ -5,6 +5,8 @@ import { FaPlus, FaTrash } from "react-icons/fa";
 const Index = () => {
   const [isGrid, setIsGrid] = useState(true);
   const [blocks, setBlocks] = useState([]);
+  const [rows, setRows] = useState(1);
+  const [columns, setColumns] = useState(1);
   const [gridProps, setGridProps] = useState({
     gap: "10px",
     justifyContent: "start",
@@ -107,16 +109,37 @@ const Index = () => {
         </FormControl>
       )}
 
-      <Button leftIcon={<FaPlus />} colorScheme="blue" onClick={handleAddBlock}>
-        Add Block
-      </Button>
+      <Wrap>
+        <WrapItem>
+          <FormControl>
+            <FormLabel>Rows:</FormLabel>
+            <Input type="number" value={rows} onChange={(e) => setRows(parseInt(e.target.value, 10))} />
+          </FormControl>
+        </WrapItem>
+        <WrapItem>
+          <FormControl>
+            <FormLabel>Columns:</FormLabel>
+            <Input type="number" value={columns} onChange={(e) => setColumns(parseInt(e.target.value, 10))} />
+          </FormControl>
+        </WrapItem>
+        <WrapItem>
+          <Button leftIcon={<FaPlus />} colorScheme="blue" onClick={handleAddBlock}>
+            Add Block
+          </Button>
+        </WrapItem>
+      </Wrap>
 
       {isGrid ? (
-        <Grid templateColumns="repeat(auto-fill, minmax(50px, 1fr))" gap={gridProps.gap} justifyContent={gridProps.justifyContent} alignItems={gridProps.alignItems}>
+        <Grid templateColumns={`repeat(${columns}, minmax(50px, 1fr))`} templateRows={`repeat(${rows}, 1fr)`} gap={gridProps.gap} justifyContent={gridProps.justifyContent} alignItems={gridProps.alignItems}>
           {renderBlocks()}
         </Grid>
       ) : (
-        <Flex gap={flexProps.gap} justifyContent={flexProps.justifyContent} alignItems={flexProps.alignItems}>
+        <Flex direction="column" wrap="wrap" gap={flexProps.gap} justifyContent={flexProps.justifyContent} alignItems={flexProps.alignItems} style={{ maxHeight: `${50 * rows}px` }}>
+          {Array.from({ length: rows }).map((_, rowIndex) => (
+            <Flex key={rowIndex} gap={flexProps.gap} justifyContent={flexProps.justifyContent} alignItems={flexProps.alignItems}>
+              {renderBlocks().slice(rowIndex * columns, (rowIndex + 1) * columns)}
+            </Flex>
+          ))}
           {renderBlocks()}
         </Flex>
       )}
