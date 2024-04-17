@@ -11,11 +11,15 @@ const Index = () => {
     gap: "10px",
     justifyContent: "start",
     alignItems: "start",
+    margin: "0px",
+    alignSelf: "stretch",
   });
   const [flexProps, setFlexProps] = useState({
     gap: "10px",
     justifyContent: "flex-start",
     alignItems: "flex-start",
+    margin: "0px",
+    alignSelf: "stretch",
   });
 
   const handleAddBlock = () => {
@@ -77,12 +81,38 @@ const Index = () => {
                 <option value="baseline">Baseline</option>
               </Select>
             </WrapItem>
+            <WrapItem>
+              <Input placeholder="Margin" value={gridProps.margin} onChange={(e) => handleGridPropsChange("margin", e.target.value)} />
+            </WrapItem>
+            <WrapItem>
+              <Select value={gridProps.alignSelf} onChange={(e) => handleGridPropsChange("alignSelf", e.target.value)}>
+                <option value="auto">Auto</option>
+                <option value="flex-start">Flex Start</option>
+                <option value="flex-end">Flex End</option>
+                <option value="center">Center</option>
+                <option value="baseline">Baseline</option>
+                <option value="stretch">Stretch</option>
+              </Select>
+            </WrapItem>
           </Wrap>
         </FormControl>
       ) : (
         <FormControl>
           <FormLabel>Flexbox Properties:</FormLabel>
           <Wrap>
+            <WrapItem>
+              <Input placeholder="Margin" value={flexProps.margin} onChange={(e) => handleFlexPropsChange("margin", e.target.value)} />
+            </WrapItem>
+            <WrapItem>
+              <Select value={flexProps.alignSelf} onChange={(e) => handleFlexPropsChange("alignSelf", e.target.value)}>
+                <option value="auto">Auto</option>
+                <option value="flex-start">Flex Start</option>
+                <option value="flex-end">Flex End</option>
+                <option value="center">Center</option>
+                <option value="baseline">Baseline</option>
+                <option value="stretch">Stretch</option>
+              </Select>
+            </WrapItem>
             <WrapItem>
               <Input placeholder="Gap" value={flexProps.gap} onChange={(e) => handleFlexPropsChange("gap", e.target.value)} />
             </WrapItem>
