@@ -57,89 +57,40 @@ const Index = () => {
         <Switch id="display-mode" isChecked={isGrid} onChange={() => setIsGrid(!isGrid)} />
       </FormControl>
 
-      {isGrid ? (
-        <FormControl>
-          <FormLabel>Grid Properties:</FormLabel>
+      {blocks.map((block, index) => (
+        <FormControl key={index}>
+          <FormLabel>Block Properties:</FormLabel>
           <Wrap>
             <WrapItem>
-              <Input placeholder="Gap" value={gridProps.gap} onChange={(e) => handleGridPropsChange("gap", e.target.value)} />
+              <FormLabel htmlFor={`block-size-${index}`}>Block Size:</FormLabel>
+              <Input id={`block-size-${index}`} placeholder="Size" value={block.size} onChange={(e) => setBlocks(blocks.map((b, idx) => (idx === index ? { ...b, size: parseInt(e.target.value, 10) } : b)))} />
             </WrapItem>
             <WrapItem>
-              <Select value={gridProps.justifyContent} onChange={(e) => handleGridPropsChange("justifyContent", e.target.value)}>
-                <option value="start">Start</option>
-                <option value="end">End</option>
-                <option value="center">Center</option>
-                <option value="space-between">Space Between</option>
-                <option value="space-around">Space Around</option>
-                <option value="space-evenly">Space Evenly</option>
-              </Select>
-            </WrapItem>
-            <WrapItem>
-              <Select value={gridProps.alignItems} onChange={(e) => handleGridPropsChange("alignItems", e.target.value)}>
-                <option value="start">Start</option>
-                <option value="end">End</option>
-                <option value="center">Center</option>
-                <option value="stretch">Stretch</option>
-                <option value="baseline">Baseline</option>
-              </Select>
-            </WrapItem>
-            <WrapItem>
-              <Input placeholder="Margin" value={gridProps.margin} onChange={(e) => handleGridPropsChange("margin", e.target.value)} />
-            </WrapItem>
-            <WrapItem>
-              <Select value={gridProps.alignSelf} onChange={(e) => handleGridPropsChange("alignSelf", e.target.value)}>
-                <option value="auto">Auto</option>
-                <option value="flex-start">Flex Start</option>
-                <option value="flex-end">Flex End</option>
-                <option value="center">Center</option>
-                <option value="baseline">Baseline</option>
-                <option value="stretch">Stretch</option>
-              </Select>
+              <FormLabel htmlFor={`block-color-${index}`}>Block Color:</FormLabel>
+              <Input id={`block-color-${index}`} placeholder="Color" value={block.color} onChange={(e) => setBlocks(blocks.map((b, idx) => (idx === index ? { ...b, color: e.target.value } : b)))} />
             </WrapItem>
           </Wrap>
         </FormControl>
-      ) : (
-        <FormControl>
-          <FormLabel>Flexbox Properties:</FormLabel>
-          <Wrap>
-            <WrapItem>
-              <Input placeholder="Margin" value={flexProps.margin} onChange={(e) => handleFlexPropsChange("margin", e.target.value)} />
-            </WrapItem>
-            <WrapItem>
-              <Select value={flexProps.alignSelf} onChange={(e) => handleFlexPropsChange("alignSelf", e.target.value)}>
-                <option value="auto">Auto</option>
-                <option value="flex-start">Flex Start</option>
-                <option value="flex-end">Flex End</option>
-                <option value="center">Center</option>
-                <option value="baseline">Baseline</option>
-                <option value="stretch">Stretch</option>
-              </Select>
-            </WrapItem>
-            <WrapItem>
-              <Input placeholder="Gap" value={flexProps.gap} onChange={(e) => handleFlexPropsChange("gap", e.target.value)} />
-            </WrapItem>
-            <WrapItem>
-              <Select value={flexProps.justifyContent} onChange={(e) => handleFlexPropsChange("justifyContent", e.target.value)}>
-                <option value="flex-start">Flex Start</option>
-                <option value="flex-end">Flex End</option>
-                <option value="center">Center</option>
-                <option value="space-between">Space Between</option>
-                <option value="space-around">Space Around</option>
-                <option value="space-evenly">Space Evenly</option>
-              </Select>
-            </WrapItem>
-            <WrapItem>
-              <Select value={flexProps.alignItems} onChange={(e) => handleFlexPropsChange("alignItems", e.target.value)}>
-                <option value="flex-start">Flex Start</option>
-                <option value="flex-end">Flex End</option>
-                <option value="center">Center</option>
-                <option value="stretch">Stretch</option>
-                <option value="baseline">Baseline</option>
-              </Select>
-            </WrapItem>
-          </Wrap>
-        </FormControl>
-      )}
+      ))}
+      <FormControl>
+        <FormLabel>{isGrid ? "Grid Container Properties:" : "Flexbox Container Properties:"}</FormLabel>
+        <Wrap>
+          <WrapItem>
+            <FormLabel htmlFor="container-gap">Gap:</FormLabel>
+            <Input id="container-gap" placeholder="Gap" value={isGrid ? gridProps.gap : flexProps.gap} onChange={(e) => (isGrid ? handleGridPropsChange("gap", e.target.value) : handleFlexPropsChange("gap", e.target.value))} />
+          </WrapItem>
+          <WrapItem>
+            <FormLabel htmlFor="container-align-items">Align Items:</FormLabel>
+            <Select id="container-align-items" value={isGrid ? gridProps.alignItems : flexProps.alignItems} onChange={(e) => (isGrid ? handleGridPropsChange("alignItems", e.target.value) : handleFlexPropsChange("alignItems", e.target.value))}>
+              <option value="start">Start</option>
+              <option value="end">End</option>
+              <option value="center">Center</option>
+              <option value="stretch">Stretch</option>
+              <option value="baseline">Baseline</option>
+            </Select>
+          </WrapItem>
+        </Wrap>
+      </FormControl>
 
       <Wrap>
         <WrapItem>
