@@ -23,7 +23,9 @@ const Index = () => {
   });
 
   const handleAddBlock = () => {
-    setBlocks([...blocks, { size: 50, color: `hsl(${Math.random() * 360}, 70%, 70%)` }]);
+    if (blocks.length < rows * columns) {
+      setBlocks([...blocks, { size: 50, color: `hsl(${Math.random() * 360}, 70%, 70%)` }]);
+    }
   };
 
   const handleRemoveBlock = (index) => {
